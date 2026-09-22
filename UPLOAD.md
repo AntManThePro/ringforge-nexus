@@ -1,13 +1,9 @@
-# Drop these three files onto main
+# Pages
 
-Pages workflow is already in the repo. The kernel files are in the operator zip.
+LIVE: https://antmanthepro.github.io/ringforge/
 
-Add to repo root (GitHub → Add file → Upload):
+Project Pages on this repo is blocked until you set
+Settings → Pages → Source → GitHub Actions.
 
-- `index.html`
-- `app.js`
-- `data.json`
-
-Then re-run **Actions → GitHub Pages → workflow_dispatch**.
-
-Live URL: https://antmanthepro.github.io/ringforge-nexus/
+Actions cannot create the Pages site (`Resource not accessible by integration`).
+See PAGES.md.
