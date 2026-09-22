@@ -2,29 +2,134 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
 <meta name="theme-color" content="#0a0a0f"/>
-<meta name="robots" content="noindex"/>
-<title>RINGFORGE // NEXUS</title>
+<meta name="robots" content="noindex,nofollow,noarchive"/>
+<meta name="description" content="RINGFORGE NEXUS Module — Ring capability truth layer by DoubleA @AntManThePro"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-title" content="RINGFORGE"/>
+<title>RINGFORGE // NEXUS — DoubleA x Ring Bot</title>
+<link rel="manifest" href="manifest.webmanifest"/>
 <link rel="icon" type="image/svg+xml" href="icons/icon.svg"/>
-<style>
-:root{--g:#00ff87;--c:#60efff;--p:#ff0080;--y:#ffcc00}
-html,body{margin:0;min-height:100%;background:#0a0a0f;color:#d8ffe8;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
-main{max-width:560px;margin:12vh auto;padding:24px;border:1px solid rgba(0,255,135,.28)}
-h1{color:var(--g);font-family:system-ui,sans-serif;margin:8px 0}
-a{color:var(--c)}
-.chip{display:inline-block;border:1px solid rgba(96,239,255,.35);padding:2px 8px;color:var(--c);font-size:11px;letter-spacing:.08em}
-code{color:var(--y)}
-</style>
+<link rel="apple-touch-icon" href="icons/icon.svg"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
-<main>
-  <div class="chip">NEXUS · NExtended Xperimental USers</div>
-  <h1>RINGFORGE LOCK</h1>
-  <p>DoubleA · AntManThePro</p>
-  <p>Kernel files are built and QA’d. Drop <code>index.html</code>, <code>app.js</code>, and <code>data.json</code> from the operator zip onto this repo root, then rerun the Pages workflow.</p>
-  <p>Repo: <a href="https://github.com/AntManThePro/ringforge-nexus">AntManThePro/ringforge-nexus</a></p>
-  <p>This plate is a wanderer stop, not the mission console.</p>
+<div id="grain"></div><div id="scanlines"></div><div id="vignette"></div>
+<section id="gate">
+  <div class="gate-card">
+    <div class="help">NEXUS · NExtended Xperimental USers</div>
+    <h1>RINGFORGE LOCK</h1>
+    <div class="sub">WANDERER GATE · NOT A VAULT</div>
+    <p class="help">Client-side hash check only. Stops casual traffic. Contracts still live in page source — labeled as such.</p>
+    <input id="gate-key" type="password" autocomplete="current-password" placeholder="MISSION KEY" aria-label="Mission key"/>
+    <div style="display:flex;gap:8px;margin-top:12px">
+      <button class="btn" id="gate-go">UNLOCK</button>
+      <button class="btn pink" id="gate-clear">CLEAR</button>
+    </div>
+    <div class="gate-msg" id="gate-msg"></div>
+    <div class="help" style="margin-top:10px">DoubleA · AntManThePro · RINGFORGE 1.1.0</div>
+  </div>
+</section>
+<section class="boot" id="boot">
+  <img class="boot-mark" src="icons/icon.svg" alt="RINGFORGE" width="72" height="72"/>
+  <pre class="boot-log" id="boot-log"></pre>
+  <div class="boot-skip">SPACE / TAP — ENTER MISSION CONTROL</div>
+</section>
+<header class="kernel" id="kernel" hidden>
+  <span class="brand display">NEXUS</span>
+  <span class="exp">NExtended Xperimental USers</span>
+  <span class="chip ok">DoubleA · AntManThePro</span>
+  <span class="chip ok">RINGFORGE 1.1.0</span>
+  <span class="chip">MATRIX v1 · VERIFIED 2026-09-10 CT</span>
+  <span class="chip warn">PARTNER OAUTH: NOT LINKED</span>
+  <span class="chip bad">RUNTIME SOURCE FACTS: UNAVAILABLE</span>
+  <span class="chip" id="clock"></span>
+  <button class="btn pink" id="btn-lock" style="margin-left:auto;min-height:28px;padding:4px 8px">LOCK</button>
+</header>
+<main class="app" id="app">
+  <section class="panel active" data-panel="1" id="panel-1">
+    <div class="panel-head"><div><h2>01 · PROPERTY TOPOLOGY</h2><div class="sub">FORCE GRAPH · DEVICE FAMILIES FROM DEVICE REGISTRY v1</div></div><span class="truth fact">RING DOCUMENTATION FACT</span></div>
+    <div class="topo-legend" id="topo-legend"></div>
+    <div class="split split-topo">
+      <div class="topo-wrap card" style="padding:0;overflow:hidden"><canvas id="topo-canvas"></canvas></div>
+      <aside class="card inspector" id="topo-inspector"><h3>Select a family node</h3><p class="help">Family-level IDs only. Drag · pinch-zoom · click.</p></aside>
+    </div>
+  </section>
+  <section class="panel" data-panel="2" id="panel-2">
+    <div class="panel-head"><div><h2>02 · CAPABILITY MATRIX</h2><div class="sub">SEARCHABLE · FILTERABLE · SOURCE + LAST_VERIFIED</div></div><span class="truth fact">RING DOCUMENTATION FACT</span></div>
+    <div class="filters">
+      <input id="mx-q" type="search" placeholder="Search capability / scope / endpoint…" aria-label="Search matrix"/>
+      <select id="mx-status"><option value="">ALL STATUS</option></select>
+      <select id="mx-scope"><option value="">ALL SCOPE FAMILY</option></select>
+      <select id="mx-flags"><option value="">ALL FLAGS</option><option value="read">READ</option><option value="write">WRITE</option><option value="event">EVENT</option><option value="webhook">WEBHOOK</option></select>
+      <span class="help" id="mx-count"></span>
+    </div>
+    <div class="split split-2" style="flex:1;min-height:0">
+      <div class="card" style="padding:0;overflow:auto"><table class="matrix-table" id="mx-table"><thead><tr><th>CAPABILITY</th><th>STATUS</th><th>SCOPE</th><th>R/W/E/H</th><th>SOURCE</th><th>VERIFIED</th></tr></thead><tbody></tbody></table></div>
+      <aside class="card inspector" id="mx-inspector"><h3>Contract record</h3><p class="help">Click a row.</p></aside>
+    </div>
+  </section>
+  <section class="panel" data-panel="3" id="panel-3">
+    <div class="panel-head"><div><h2>03 · EVENT BUS</h2><div class="sub">DOCUMENTED WEBHOOKS ONLY · TEMPORAL CLUSTERING + GRAPH DISTANCE</div></div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="truth mock">MOCK ADAPTER</span><button class="btn pink" id="bus-pause">SPACE · PAUSE</button></div></div>
+    <div class="card" style="padding:10px"><div class="help">Correlation rule <span class="truth derived">RINGFORGE DERIVED</span>: events within <code>Δt ≤ 90s</code> AND same <code>location_id</code> OR adjacent family (graph distance ≤ 1) → incident tagged <b>LIKELY RELATED</b>.</div></div>
+    <div class="bus-layout">
+      <div class="card" style="display:flex;flex-direction:column;min-height:0"><div class="panel-head" style="margin-bottom:6px"><span class="sub">STREAM</span><span class="help" id="bus-stats"></span></div><div class="event-stream" id="event-stream"></div></div>
+      <div class="card" style="display:flex;flex-direction:column;min-height:0"><div class="panel-head" style="margin-bottom:6px"><span class="sub">INCIDENTS · LIKELY RELATED</span></div><div class="event-stream" id="incident-stream"></div></div>
+    </div>
+  </section>
+  <section class="panel" data-panel="4" id="panel-4">
+    <div class="panel-head"><div><h2>04 · SCOPE / OAUTH</h2><div class="sub">CANONICAL SCOPE REGISTRY v1</div></div><span class="truth fact">RING DOCUMENTATION FACT</span></div>
+    <div class="card" style="overflow:auto;flex:1"><div class="scope-grid" id="scope-grid"></div><div class="conflict" id="conflict-box"></div><div style="margin-top:12px" id="oauth-box"></div></div>
+  </section>
+  <section class="panel" data-panel="5" id="panel-5">
+    <div class="panel-head"><div><h2>05 · ENDPOINT REGISTRY</h2><div class="sub">AMAZON VISION API · OAUTH · WEBHOOKS</div></div><span class="truth fact">RING DOCUMENTATION FACT</span></div>
+    <div class="filters"><input id="ep-q" type="search" placeholder="Filter endpoints…" aria-label="Filter endpoints"/><select id="ep-cat"><option value="">ALL CATEGORIES</option></select></div>
+    <div class="card" style="overflow:auto;flex:1" id="ep-list"></div>
+  </section>
+  <section class="panel" data-panel="6" id="panel-6">
+    <div class="panel-head"><div><h2>06 · TRUTH HUD // HIRE</h2><div class="sub">RECRUITER READOUT · NEVER SACRIFICE TRUTH FOR FEATURES</div></div><span class="truth fact">RING DOCUMENTATION FACT</span></div>
+    <div class="hire" id="hire"></div>
+  </section>
+  <section class="panel" data-panel="7" id="panel-7">
+    <div class="panel-head"><div><h2>07 · SOURCES / OV</h2><div class="sub">PRIMARY DOCS · OPEN VERIFICATION · EXPORT</div></div><span class="truth fact">RING DOCUMENTATION FACT</span></div>
+    <div class="card src" id="src-box" style="flex:1;overflow:auto"></div>
+  </section>
 </main>
+<nav class="dock" id="dock" hidden>
+  <button data-go="1" class="on"><span class="ico">◈</span>TOPO</button>
+  <button data-go="2"><span class="ico">▦</span>MATRIX</button>
+  <button data-go="3"><span class="ico">⚡</span>BUS</button>
+  <button data-go="4"><span class="ico">⬡</span>SCOPE</button>
+  <button data-go="5"><span class="ico">⇄</span>API</button>
+  <button data-go="6"><span class="ico">◎</span>TRUTH</button>
+  <button data-go="7"><span class="ico">▣</span>SRC</button>
+</nav>
+<div class="search-overlay" id="search"><div class="search-box"><div class="help">/ SEARCH · ESC CLOSE</div><input id="search-input" placeholder="capability, webhook, scope, endpoint…" autocomplete="off"/><div class="search-hits" id="search-hits"></div></div></div>
+<div class="modal" id="modal"><div class="modal-card"><div class="panel-head"><h3 id="modal-title" class="display" style="margin:0;color:var(--c)">Record</h3><button class="btn" id="modal-close">ESC</button></div><pre id="modal-body"></pre></div></div>
+<script id="RF_DATA" type="application/json">{}</script>
+<script src="rfdata1.js"></script>
+<script src="rfdata2.js"></script>
+<script src="rfdata3.js"></script>
+<script src="rfdata4.js"></script>
+<script src="rfapp1.js"></script>
+<script src="rfapp2.js"></script>
+<script src="rfapp3.js"></script>
+<script src="rfapp4.js"></script>
+<script>
+(function(){
+  var json = (window.RFDATA||[]).join('');
+  var app = (window.RFAPP||[]).join('');
+  var tag = document.getElementById('RF_DATA');
+  if (tag) tag.textContent = json;
+  var s = document.createElement('script');
+  s.text = app;
+  document.body.appendChild(s);
+})();
+</script>
 </body>
 </html>
